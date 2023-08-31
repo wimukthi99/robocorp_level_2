@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.9.13 on win32)" generated="20230831 11:02:10.341" rpa="false" schemaversion="3">
+<suite id="s1" name="Tasks" source="D:\robocorp_lvl2\tasks.robot">
+<test id="s1-t1" name="Order Robots from RobotSpareBin Industries Inc" line="30">
+<kw name="Open Robot Order Website">
+<kw name="Open Available Browser" library="RPA.Browser.Selenium">
+<arg>${ORDER_URL}</arg>
+<doc>Attempts to open a browser on the user's device from a set of
+supported browsers. Automatically downloads a corresponding webdriver
+if none is already installed.</doc>
+<msg timestamp="20230831 11:02:29.171" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20230831 11:02:34.566" level="INFO">Created Chrome browser with arguments: --disable-dev-shm-usage --disable-web-security --allow-running-insecure-content --no-sandbox</msg>
+<msg timestamp="20230831 11:02:34.566" level="INFO" html="true">&lt;p&gt;Attempted combinations:&lt;/p&gt;&lt;div class="doc"&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;Download&lt;/th&gt;&lt;th&gt;Error&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</msg>
+<msg timestamp="20230831 11:02:34.566" level="INFO">Opening url 'https://robotsparebinindustries.com/#/robot-order'</msg>
+<status status="PASS" starttime="20230831 11:02:29.130" endtime="20230831 11:02:36.085"/>
+</kw>
+<status status="PASS" starttime="20230831 11:02:29.126" endtime="20230831 11:02:36.085"/>
+</kw>
+<kw name="Get Orders">
+<var>${ORDERS}</var>
+<kw name="Download" library="RPA.HTTP">
+<arg>url=${CSV_URL}</arg>
+<arg>target_file=${ORDERS_FILE}</arg>
+<arg>overwrite=True</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<msg timestamp="20230831 11:02:36.096" level="INFO">Creating a new HTTP session</msg>
+<msg timestamp="20230831 11:02:36.096" level="INFO">Creating Session using : alias=rpasession_alias.httpsrobotsparebinindustries.com, url=https://robotsparebinindustries.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<status status="PASS" starttime="20230831 11:02:36.096" endtime="20230831 11:04:03.990"/>
+</kw>
+<kw name="Read table from CSV" library="RPA.Tables">
+<var>${TABLE}</var>
+<arg>path=${ORDERS_FILE}</arg>
+<doc>Read a CSV file as a table.</doc>
+<msg timestamp="20230831 11:04:03.997" level="INFO">${TABLE} = Table(columns=['Order number', 'Head', 'Body', 'Legs', 'Address'], rows=20)</msg>
+<status status="PASS" starttime="20230831 11:04:03.990" endtime="20230831 11:04:03.997"/>
+</kw>
+<msg timestamp="20230831 11:04:03.998" level="INFO">${ORDERS} = Table(columns=['Order number', 'Head', 'Body', 'Legs', 'Address'], rows=20)</msg>
+<status status="PASS" starttime="20230831 11:02:36.096" endtime="20230831 11:04:03.998"/>
+</kw>
+<for flavor="IN">
+<var>${ORDER}</var>
+<value>@{ORDERS}</value>
+<iter>
+<var name="${ORDER}">{'Order number': '1', 'Head': '1', 'Body': '2', 'Legs': '3', 'Address': 'Address 123'}</var>
+<kw name="Close Annoying Modal">
+<kw name="Set Local Variable" library="BuiltIn">
+<arg>${BTN_YES}</arg>
+<arg>//*[@id="root"]/div/div[2]/div/div/div/div/div/button[2]</arg>
+<doc>Makes a variable available everywhere within the local scope.</doc>
+<msg timestamp="20230831 11:04:04.011" level="INFO">${BTN_YES} = //*[@id="root"]/div/div[2]/div/div/div/div/div/button[2]</msg>
+<status status="PASS" starttime="20230831 11:04:04.008" endtime="20230831 11:04:04.011"/>
+</kw>
+<kw name="Wait And Click Button" library="RPA.Browser.Selenium">
+<arg>${BTN_YES}</arg>
+<doc>Click button identified by ``locator``, once it becomes visible.</doc>
+<msg timestamp="20230831 11:04:04.022" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=116.0.5845.112)
+Stacktrace:
+	GetHandleVerifier [0x00007FF6112B52A2+57122]
+	(No symbol) [0x00007FF61122EA92]
+	(No symbol) [0x00007FF6110FE3AB]
+	(No symbol) [0x00007FF6110DE1B9]
+	(No symbol) [0x00007FF61115B417]
+	(No symbol) [0x00007FF61116E24F]
+	(No symbol) [0x00007FF611156DB3]
+	(No symbol) [0x00007FF61112D2B1]
+	(No symbol) [0x00007FF61112E494]
+	GetHandleVerifier [0x00007FF61155EF82+2849794]
+	GetHandleVerifier [0x00007FF6115B1D24+3189156]
+	GetHandleVerifier [0x00007FF6115AACAF+3160367]
+	GetHandleVerifier [0x00007FF611346D06+653702]
+	(No symbol) [0x00007FF61123A208]
+	(No symbol) [0x00007FF6112362C4]
+	(No symbol) [0x00007FF6112363F6]
+	(No symbol) [0x00007FF6112267A3]
+	BaseThreadInitThunk [0x00007FFC1A1B7614+20]
+	RtlUserThreadStart [0x00007FFC1A3626B1+33]
+</msg>
+<msg timestamp="20230831 11:04:04.051" level="FAIL">NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=116.0.5845.112)
+Stacktrace:
+	GetHandleVerifier [0x00007FF6112B52A2+57122]
+	(No symbol) [0x00007FF61122EA92]
+	(No symbol) [0x00007FF6110FE3AB]
+	(No symbol) [0x00007FF6110DE1B9]
+	(No symbol) [0x00007FF61115B417]
+	(No symbol) [0x00007FF61116E24F]
+	(No symbol) [0x00007FF611156DB3]
+	(No symbol) [0x00007FF61112D2B1]
+	(No symbol) [0x00007FF61112E494]
+	GetHandleVerifier [0x00007FF61155EF82+2849794]
+	GetHandleVerifier [0x00007FF6115B1D24+3189156]
+	GetHandleVerifier [0x00007FF6115AACAF+3160367]
+	GetHandleVerifier [0x00007FF611346D06+653702]
+	(No symbol) [0x00007FF61123A208]
+	(No symbol) [0x00007FF6112362C4]
+	(No symbol) [0x00007FF6112363F6]
+	(No symbol) [0x00007FF6112267A3]
+	BaseThreadInitThunk [0x00007FFC1A1B7614+20]
+	RtlUserThreadStart [0x00007FFC1A3626B1+33]
+</msg>
+<status status="FAIL" starttime="20230831 11:04:04.012" endtime="20230831 11:04:04.059"/>
+</kw>
+<status status="FAIL" starttime="20230831 11:04:04.007" endtime="20230831 11:04:04.062"/>
+</kw>
+<kw name="Fill Order Form">
+<arg>${ORDER}</arg>
+<status status="NOT RUN" starttime="20230831 11:04:04.062" endtime="20230831 11:04:04.063"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" library="BuiltIn">
+<arg>10x</arg>
+<arg>2s</arg>
+<arg>Preview Robot</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="NOT RUN" starttime="20230831 11:04:04.064" endtime="20230831 11:04:04.064"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" library="BuiltIn">
+<arg>10x</arg>
+<arg>2s</arg>
+<arg>Submit Order</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="NOT RUN" starttime="20230831 11:04:04.065" endtime="20230831 11:04:04.066"/>
+</kw>
+<kw name="Take Screenshot of Robot">
+<var>${ORDER_ID}</var>
+<var>${IMG_FILENAME}</var>
+<status status="NOT RUN" starttime="20230831 11:04:04.066" endtime="20230831 11:04:04.067"/>
+</kw>
+<kw name="Store Receipt as PDF File">
+<var>${PDF_FILENAME}</var>
+<arg>ORDER_NUMBER=${ORDER_ID}</arg>
+<status status="NOT RUN" starttime="20230831 11:04:04.067" endtime="20230831 11:04:04.068"/>
+</kw>
+<kw name="Embed Robot Screenshot to Receipt PDF File">
+<arg>IMG_FILE=${IMG_FILENAME}</arg>
+<arg>PDF_FILE=${PDF_FILENAME}</arg>
+<status status="NOT RUN" starttime="20230831 11:04:04.068" endtime="20230831 11:04:04.068"/>
+</kw>
+<kw name="Go to Order Another Robot">
+<status status="NOT RUN" starttime="20230831 11:04:04.069" endtime="20230831 11:04:04.069"/>
+</kw>
+<status status="FAIL" starttime="20230831 11:04:04.006" endtime="20230831 11:04:04.069"/>
+</iter>
+<status status="FAIL" starttime="20230831 11:04:04.005" endtime="20230831 11:04:04.070"/>
+</for>
+<kw name="Create ZIP File of Receipts">
+<status status="NOT RUN" starttime="20230831 11:04:04.077" endtime="20230831 11:04:04.078"/>
+</kw>
+<kw name="Log Out And Close Browser">
+<status status="NOT RUN" starttime="20230831 11:04:04.080" endtime="20230831 11:04:04.080"/>
+</kw>
+<status status="FAIL" starttime="20230831 11:02:29.091" endtime="20230831 11:04:04.084">NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=116.0.5845.112)
+Stacktrace:
+	GetHandleVerifier [0x00007FF6112B52A2+57122]
+	(No symbol) [0x00007FF61122EA92]
+	(No symbol) [0x00007FF6110FE3AB]
+	(No symbol) [0x00007FF6110DE1B9]
+	(No symbol) [0x00007FF61115B417]
+	(No symbol) [0x00007FF61116E24F]
+	(No symbol) [0x00007FF611156DB3]
+	(No symbol) [0x00007FF61112D2B1]
+	(No symbol) [0x00007FF61112E494]
+	GetHandleVerifier [0x00007FF61155EF82+2849794]
+	GetHandleVerifier [0x00007FF6115B1D24+3189156]
+	GetHandleVerifier [0x00007FF6115AACAF+3160367]
+	GetHandleVerifier [0x00007FF611346D06+653702]
+	(No symbol) [0x00007FF61123A208]
+	(No symbol) [0x00007FF6112362C4]
+	(No symbol) [0x00007FF6112363F6]
+	(No symbol) [0x00007FF6112267A3]
+	BaseThreadInitThunk [0x00007FFC1A1B7614+20]
+	RtlUserThreadStart [0x00007FFC1A3626B1+33]
+</status>
+</test>
+<doc>Orders robots from RobotSpareBin Industries Inc.
+Saves the order HTML receipt as a PDF file.
+Saves the screenshot of the ordered robot.
+Embeds the screenshot of the robot to the PDF receipt.
+Creates ZIP archive of the receipts and the images.
+Author: www.github.com/joergschultzelutter</doc>
+<status status="FAIL" starttime="20230831 11:02:10.386" endtime="20230831 11:04:04.108"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Tasks">Tasks</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20230831 11:04:04.022" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=116.0.5845.112)
+Stacktrace:
+	GetHandleVerifier [0x00007FF6112B52A2+57122]
+	(No symbol) [0x00007FF61122EA92]
+	(No symbol) [0x00007FF6110FE3AB]
+	(No symbol) [0x00007FF6110DE1B9]
+	(No symbol) [0x00007FF61115B417]
+	(No symbol) [0x00007FF61116E24F]
+	(No symbol) [0x00007FF611156DB3]
+	(No symbol) [0x00007FF61112D2B1]
+	(No symbol) [0x00007FF61112E494]
+	GetHandleVerifier [0x00007FF61155EF82+2849794]
+	GetHandleVerifier [0x00007FF6115B1D24+3189156]
+	GetHandleVerifier [0x00007FF6115AACAF+3160367]
+	GetHandleVerifier [0x00007FF611346D06+653702]
+	(No symbol) [0x00007FF61123A208]
+	(No symbol) [0x00007FF6112362C4]
+	(No symbol) [0x00007FF6112363F6]
+	(No symbol) [0x00007FF6112267A3]
+	BaseThreadInitThunk [0x00007FFC1A1B7614+20]
+	RtlUserThreadStart [0x00007FFC1A3626B1+33]
+</msg>
+</errors>
+</robot>
